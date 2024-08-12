@@ -30,7 +30,8 @@
         {
             textBoxEmail = new TextBox();
             textBoxPass = new TextBox();
-            buttonLogin = new Button();
+            ButtonLogin = new Button();
+            ButtonRegister = new Button();
             SuspendLayout();
             // 
             // textBoxEmail
@@ -47,25 +48,37 @@
             textBoxPass.Size = new Size(198, 23);
             textBoxPass.TabIndex = 1;
             // 
-            // buttonLogin
+            // ButtonLogin
             // 
-            buttonLogin.Location = new Point(66, 343);
-            buttonLogin.Name = "buttonLogin";
-            buttonLogin.Size = new Size(198, 38);
-            buttonLogin.TabIndex = 2;
-            buttonLogin.Text = "Login";
-            buttonLogin.UseVisualStyleBackColor = true;
-            buttonLogin.Click += buttonLogin_Click;
+            ButtonLogin.Location = new Point(66, 331);
+            ButtonLogin.Name = "ButtonLogin";
+            ButtonLogin.Size = new Size(198, 50);
+            ButtonLogin.TabIndex = 2;
+            ButtonLogin.Text = "Login";
+            ButtonLogin.UseVisualStyleBackColor = true;
+            ButtonLogin.Click += ButtonLogin_Click;
+            // 
+            // ButtonRegister
+            // 
+            ButtonRegister.Location = new Point(66, 398);
+            ButtonRegister.Name = "ButtonRegister";
+            ButtonRegister.Size = new Size(198, 25);
+            ButtonRegister.TabIndex = 3;
+            ButtonRegister.Text = "Register";
+            ButtonRegister.UseVisualStyleBackColor = true;
+            ButtonRegister.Click += ButtonRegister_Click;
             // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(336, 450);
-            Controls.Add(buttonLogin);
+            Controls.Add(ButtonRegister);
+            Controls.Add(ButtonLogin);
             Controls.Add(textBoxPass);
             Controls.Add(textBoxEmail);
             Name = "Login";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             Load += Login_Load;
             ResumeLayout(false);
@@ -76,6 +89,7 @@
 
         private TextBox textBoxEmail;
         private TextBox textBoxPass;
-        private Button buttonLogin;
+        private Button ButtonLogin;
+        private Button ButtonRegister;
     }
 }
