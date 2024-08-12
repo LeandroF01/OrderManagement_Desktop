@@ -3,6 +3,7 @@ using OrderManagement_Desktop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,17 @@ namespace OrderManagement_Desktop.Services
     {
         private readonly HttpClient _httpClient;
 
+        public UserServices(string token)
+        {
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:5287/api/");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
         public UserServices()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:5287/api/"); 
+            _httpClient.BaseAddress = new Uri("http://localhost:5287/api/");
         }
 
         public async Task<List<Users>> GetUsers()
@@ -31,8 +39,26 @@ namespace OrderManagement_Desktop.Services
 
         public async Task<bool> AddUser(Users user)
         {
-            var response = await _httpClient.PostAsJsonAsync("Users", user);
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("Users", user);
+
+                // Leer el contenido de la respuesta
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Mostrar o registrar el contenido de la respuesta para diagnóstico
+                    throw new Exception($"Error al agregar el usuario. Código: {response.StatusCode}, Mensaje: {responseContent}");
+                }
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                // Log error or handle it as needed
+                throw new Exception("Error al agregar el usuario: " + ex.Message);
+            }
         }
 
         public async Task<bool> UpdateUser(Users user)
