@@ -2,6 +2,8 @@ using OrderManagement_Desktop.Models;
 using OrderManagement_Desktop.Services;
 using System.Windows.Forms;
 using System;
+using System.Configuration;
+using OrderManagement_Desktop.View;
 
 namespace OrderManagement_Desktop
 {
@@ -16,23 +18,14 @@ namespace OrderManagement_Desktop
             _authServices = new AuthServices();
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    // Crear una nueva instancia del formulario de login
-        //    Login loginForm = new Login();
-
-        //    // Mostrar el formulario de login como un cuadro de diálogo modal
-        //    loginForm.ShowDialog();
-        //}
-
-
 
         private async void Login_Load(object sender, EventArgs e)
         {
-           
+            textBoxEmail.Text = GetEmailFromConfig();
         }
 
-        private async void buttonLogin_Click(object sender, EventArgs e)
+
+        private async void ButtonLogin_Click(object sender, EventArgs e)
         {
             var Login = new Models.Login
             {
@@ -41,16 +34,38 @@ namespace OrderManagement_Desktop
             };
             string token = await _authServices.Login(Login);
 
-        
+
 
             if (!string.IsNullOrEmpty(token) && !token.Contains("Incorrect password."))
             {
+                SaveEmailToConfig(Login.Email);
                 MessageBox.Show(token);
             }
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrectos.");
             }
+        }
+
+
+        private void SaveEmailToConfig(string email)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["UserEmail"].Value = email;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private string GetEmailFromConfig()
+        {
+            return ConfigurationManager.AppSettings["UserEmail"];
+        }
+
+        private void ButtonRegister_Click(object sender, EventArgs e)
+        {
+            Register registerForm = new Register();
+
+            registerForm.ShowDialog();
         }
     }
 }
