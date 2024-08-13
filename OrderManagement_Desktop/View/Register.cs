@@ -42,6 +42,10 @@ namespace OrderManagement_Desktop.View
                 if (isSuccess)
                 {
                     MessageBox.Show("Usuario agregado exitosamente.");
+
+                    Login loginForm = new Login();
+
+                    loginForm.ShowDialog();
                 }
                 else
                 {

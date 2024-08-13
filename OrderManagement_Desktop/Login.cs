@@ -39,7 +39,9 @@ namespace OrderManagement_Desktop
             if (!string.IsNullOrEmpty(token) && !token.Contains("Incorrect password."))
             {
                 SaveEmailToConfig(Login.Email);
-                MessageBox.Show(token);
+                Home homeForm = new Home();
+
+                homeForm.ShowDialog();
             }
             else
             {
