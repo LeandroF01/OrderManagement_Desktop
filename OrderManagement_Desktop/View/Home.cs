@@ -16,5 +16,14 @@ namespace OrderManagement_Desktop.View
         {
             InitializeComponent();
         }
+
+        private void ButtonViewProducts_Click(object sender, EventArgs e)
+        {
+            Products productsForm = new Products();
+
+            productsForm.ShowDialog();
+        }
+    
     }
 }
+

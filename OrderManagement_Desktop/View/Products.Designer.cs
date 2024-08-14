@@ -1,6 +1,6 @@
 ﻿namespace OrderManagement_Desktop.View
 {
-    partial class Home
+    partial class Products
     {
         /// <summary>
         /// Required designer variable.
@@ -28,32 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ButtonViewProducts = new Button();
+            DataGridViewProducts = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)DataGridViewProducts).BeginInit();
             SuspendLayout();
             // 
-            // ButtonViewProducts
+            // DataGridViewProducts
             // 
-            ButtonViewProducts.Location = new Point(54, 44);
-            ButtonViewProducts.Name = "ButtonViewProducts";
-            ButtonViewProducts.Size = new Size(102, 47);
-            ButtonViewProducts.TabIndex = 0;
-            ButtonViewProducts.Text = "PRODUCTS";
-            ButtonViewProducts.UseVisualStyleBackColor = true;
-            ButtonViewProducts.Click += ButtonViewProducts_Click;
+            DataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridViewProducts.Location = new Point(59, 84);
+            DataGridViewProducts.Name = "DataGridViewProducts";
+            DataGridViewProducts.Size = new Size(639, 238);
+            DataGridViewProducts.TabIndex = 0;
             // 
-            // Home
+            // Products
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(ButtonViewProducts);
-            Name = "Home";
-            Text = "Home";
+            Controls.Add(DataGridViewProducts);
+            Name = "Products";
+            Text = "Products";
+            Load += Products_Load;
+            ((System.ComponentModel.ISupportInitialize)DataGridViewProducts).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button ButtonViewProducts;
+        private DataGridView DataGridViewProducts;
     }
 }
