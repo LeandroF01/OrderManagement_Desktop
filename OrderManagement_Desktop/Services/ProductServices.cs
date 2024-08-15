@@ -20,7 +20,15 @@ namespace OrderManagement_Desktop.Services
 
         public async Task<List<Products>> GetProducts()
         {
-            return await _httpClient.GetFromJsonAsync<List<Products>>("Products");
+
+        var products = await _httpClient.GetFromJsonAsync<List<Products>>("Products");
+
+            foreach (var product in products)
+            {
+                product.Stock = await CalculateAvailableStock(product.ProductID);
+            }
+
+            return products;
         }
 
         public async Task<Products> GetProductById(int id)
@@ -45,5 +53,42 @@ namespace OrderManagement_Desktop.Services
             var response = await _httpClient.DeleteAsync($"Products/{id}");
             return response.IsSuccessStatusCode;
         }
+        
+
+        //FUNTIONS
+        private async Task<decimal> CalculateAvailableStock(int productId)
+        {
+            var productIngredientServices = new ProductIngredientServices();
+            var ingredientServices = new IngredientServices();
+
+            var allProductIngredients = await productIngredientServices.GetProductIngredients();
+            var allIngredients = await ingredientServices.GetIngredients();
+
+            var requiredIngredients = allProductIngredients.Where(pi => pi.ProductID == productId).ToList();
+
+            if (!requiredIngredients.Any())
+            {
+                return 0;
+            }
+
+            decimal minStock = decimal.MaxValue;
+
+            foreach (var pi in requiredIngredients)
+            {
+                var ingredient = allIngredients.FirstOrDefault(i => i.IngredientID == pi.IngredientID);
+                if (ingredient != null)
+                {
+                    decimal availableStock = ingredient.Quantity / pi.Quantity;
+
+                    if (availableStock < minStock)
+                    {
+                        minStock = availableStock;
+                    }
+                }
+            }
+
+            return minStock;
+        }
+
     }
 }
