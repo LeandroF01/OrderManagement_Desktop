@@ -23,12 +23,12 @@ namespace OrderManagement_Desktop.View
             _productServices = new ProductServices();
         }
 
-            private void Products_Load(object sender, EventArgs e)
-            {
-                ViewProducts();
-            }
+        private void Products_Load(object sender, EventArgs e)
+        {
+            ViewProducts();
+        }
 
-        private async void  ViewProducts()
+        public async void ViewProducts()
         {
             try
             {
@@ -37,77 +37,17 @@ namespace OrderManagement_Desktop.View
             }
             catch (Exception ex)
             {
-              MessageBox.Show($"Error al cargar los productos: {ex.Message}");
+                MessageBox.Show($"Error al cargar los productos: {ex.Message}");
             }
         }
 
-        private async void AddProduct()
+
+
+        private void ButtonAddProduct_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var newProduct = new Models.Products
-                {
-                    Name = "",
-                    Description = "",
-                    Price = 0,
-                    CategoryID = 0,
-                    Stock = 0,
-                    ImageURL = ""
-                }; 
+            AddProducts addProductsForm = new AddProducts();
 
-                var result = await _productServices.AddProduct(newProduct);
-
-                if (result)
-                {
-                    MessageBox.Show("Producto añadido con éxito.");
-                    ViewProducts(); 
-                }
-                else
-                {
-                    MessageBox.Show("Error al añadir el producto.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
+            addProductsForm.ShowDialog();
         }
-
-        private async void UpdateProduct()
-        {
-            try
-            {
-
-                var updatedProduct = new Models.Products
-                {
-                    Name = "",
-                    Description = "",
-                    Price = 0,
-                    CategoryID = 0,
-                    Stock = 0,
-                    ImageURL = ""
-                };
-
-                var result = await _productServices.UpdateProduct(updatedProduct);
-
-                if (result)
-                {
-                    MessageBox.Show("Producto actualizado con éxito.");
-                    ViewProducts();
-                }
-                else
-                {
-                    MessageBox.Show("Error al actualizar el producto.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
-        }
-
-
-
-
     }
 }

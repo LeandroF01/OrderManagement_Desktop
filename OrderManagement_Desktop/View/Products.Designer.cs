@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DataGridViewProducts = new DataGridView();
+            ButtonAddProduct = new Button();
             ((System.ComponentModel.ISupportInitialize)DataGridViewProducts).BeginInit();
             SuspendLayout();
             // 
@@ -40,11 +41,22 @@
             DataGridViewProducts.Size = new Size(639, 238);
             DataGridViewProducts.TabIndex = 0;
             // 
+            // ButtonAddProduct
+            // 
+            ButtonAddProduct.Location = new Point(605, 377);
+            ButtonAddProduct.Name = "ButtonAddProduct";
+            ButtonAddProduct.Size = new Size(40, 43);
+            ButtonAddProduct.TabIndex = 1;
+            ButtonAddProduct.Text = "+";
+            ButtonAddProduct.UseVisualStyleBackColor = true;
+            ButtonAddProduct.Click += ButtonAddProduct_Click;
+            // 
             // Products
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(ButtonAddProduct);
             Controls.Add(DataGridViewProducts);
             Name = "Products";
             Text = "Products";
@@ -56,5 +68,6 @@
         #endregion
 
         private DataGridView DataGridViewProducts;
+        private Button ButtonAddProduct;
     }
 }
