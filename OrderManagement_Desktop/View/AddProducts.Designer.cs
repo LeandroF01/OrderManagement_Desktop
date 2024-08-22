@@ -33,6 +33,11 @@
             ComboBoxCategories = new ComboBox();
             richTextBox1 = new RichTextBox();
             ListBoxIngredientes = new ListBox();
+            DataGridViewAddIngredientes = new DataGridView();
+            ButtonConfirmIngredient = new Button();
+            TextBoxIngredientes = new TextBox();
+            TextBoxAmountIngredients = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)DataGridViewAddIngredientes).BeginInit();
             SuspendLayout();
             // 
             // textBox1
@@ -70,16 +75,52 @@
             // 
             ListBoxIngredientes.FormattingEnabled = true;
             ListBoxIngredientes.ItemHeight = 15;
-            ListBoxIngredientes.Location = new Point(579, 66);
+            ListBoxIngredientes.Location = new Point(432, 77);
             ListBoxIngredientes.Name = "ListBoxIngredientes";
-            ListBoxIngredientes.Size = new Size(120, 94);
+            ListBoxIngredientes.Size = new Size(163, 109);
             ListBoxIngredientes.TabIndex = 7;
+            // 
+            // DataGridViewAddIngredientes
+            // 
+            DataGridViewAddIngredientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridViewAddIngredientes.Location = new Point(40, 268);
+            DataGridViewAddIngredientes.Name = "DataGridViewAddIngredientes";
+            DataGridViewAddIngredientes.Size = new Size(233, 150);
+            DataGridViewAddIngredientes.TabIndex = 8;
+            // 
+            // ButtonConfirmIngredient
+            // 
+            ButtonConfirmIngredient.Location = new Point(616, 145);
+            ButtonConfirmIngredient.Name = "ButtonConfirmIngredient";
+            ButtonConfirmIngredient.Size = new Size(95, 41);
+            ButtonConfirmIngredient.TabIndex = 9;
+            ButtonConfirmIngredient.Text = "button1";
+            ButtonConfirmIngredient.UseVisualStyleBackColor = true;
+            ButtonConfirmIngredient.Click += ButtonConfirmIngredient_Click;
+            // 
+            // TextBoxIngredientes
+            // 
+            TextBoxIngredientes.Location = new Point(432, 43);
+            TextBoxIngredientes.Name = "TextBoxIngredientes";
+            TextBoxIngredientes.Size = new Size(163, 23);
+            TextBoxIngredientes.TabIndex = 10;
+            // 
+            // TextBoxAmountIngredients
+            // 
+            TextBoxAmountIngredients.Location = new Point(616, 108);
+            TextBoxAmountIngredients.Name = "TextBoxAmountIngredients";
+            TextBoxAmountIngredients.Size = new Size(95, 23);
+            TextBoxAmountIngredients.TabIndex = 11;
             // 
             // AddProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(763, 450);
+            Controls.Add(TextBoxAmountIngredients);
+            Controls.Add(TextBoxIngredientes);
+            Controls.Add(ButtonConfirmIngredient);
+            Controls.Add(DataGridViewAddIngredientes);
             Controls.Add(ListBoxIngredientes);
             Controls.Add(richTextBox1);
             Controls.Add(ComboBoxCategories);
@@ -88,6 +129,7 @@
             Name = "AddProducts";
             Text = "AddProducts";
             Load += AddProducts_Load;
+            ((System.ComponentModel.ISupportInitialize)DataGridViewAddIngredientes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -99,5 +141,9 @@
         private ComboBox ComboBoxCategories;
         private RichTextBox richTextBox1;
         private ListBox ListBoxIngredientes;
+        private DataGridView DataGridViewAddIngredientes;
+        private Button ButtonConfirmIngredient;
+        private TextBox TextBoxIngredientes;
+        private TextBox TextBoxAmountIngredients;
     }
 }
