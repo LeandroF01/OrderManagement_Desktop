@@ -1,4 +1,5 @@
-﻿using OrderManagement_Desktop.Services;
+﻿using OrderManagement_Desktop.Models;
+using OrderManagement_Desktop.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,13 +29,17 @@ namespace OrderManagement_Desktop.View
             _ingredientsServices = new IngredientServices();
         }
 
-      //  ListBoxIngredientes
+        //  ListBoxIngredientes
 
         private async void AddProducts_Load(object sender, EventArgs e)
         {
-           await ViewCategories();
+            await ViewCategories();
 
             await LoadIngredients();
+
+
+            DataGridViewAddIngredientes.Columns.Add("IngredientName", "Ingrediente");
+            DataGridViewAddIngredientes.Columns.Add("IngredientQuantity", "Cantidad");
         }
 
         private async Task ViewCategories()
@@ -43,8 +48,8 @@ namespace OrderManagement_Desktop.View
             {
                 var categoryList = await _categoriesServices.GetCategories();
 
-                ComboBoxCategories.DisplayMember = "Name"; // La propiedad que quieres mostrar.
-                ComboBoxCategories.ValueMember = "CategoryID"; // El valor asociado a cada ítem.
+                ComboBoxCategories.DisplayMember = "Name"; 
+                ComboBoxCategories.ValueMember = "CategoryID"; 
 
                 ComboBoxCategories.DataSource = categoryList;
             }
@@ -135,21 +140,38 @@ namespace OrderManagement_Desktop.View
         {
             try
             {
-                // Obtén la lista de ingredientes desde el servicio.
                 var ingredientsList = await _ingredientsServices.GetIngredients();
-
-                // Asigna la lista como el DataSource del ListBox.
                 ListBoxIngredientes.DataSource = ingredientsList;
 
-                // Especifica qué propiedad del objeto "Ingredient" se mostrará en el ListBox.
-                ListBoxIngredientes.DisplayMember = "Name"; // Propiedad del modelo de ingredientes (puede ser "Name" o cualquier otra).
+                ListBoxIngredientes.DisplayMember = "Name";
 
-                // Si necesitas la ID del ingrediente para otras operaciones, puedes usar la propiedad ValueMember.
                 ListBoxIngredientes.ValueMember = "IngredientID";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar los ingredientes: {ex.Message}");
+            }
+        }
+
+        private void ButtonConfirmIngredient_Click(object sender, EventArgs e)
+        {
+            if (ListBoxIngredientes.SelectedItem != null && !string.IsNullOrWhiteSpace(TextBoxAmountIngredients.Text))
+            {
+                var selectedIngredient = (Ingredients)ListBoxIngredientes.SelectedItem;
+
+                if (decimal.TryParse(TextBoxAmountIngredients.Text, out decimal quantity))
+                {
+                    DataGridViewAddIngredientes.Rows.Add(selectedIngredient.Name, quantity);
+                    TextBoxAmountIngredients.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese una cantidad válida.", "Cantidad no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un ingrediente y especifique la cantidad.", "Información faltante", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
