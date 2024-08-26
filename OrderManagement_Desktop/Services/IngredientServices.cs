@@ -28,6 +28,12 @@ namespace OrderManagement_Desktop.Services
             return await _httpClient.GetFromJsonAsync<Ingredients>($"Ingredients/{id}");
         }
 
+        public async Task<Ingredients> GetIngredientByName(string name)
+        {
+            var ingredients = await GetIngredients(); 
+            return ingredients.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
         public async Task<bool> AddIngredient(Ingredients ingredient)
         {
             var response = await _httpClient.PostAsJsonAsync("Ingredients", ingredient);
