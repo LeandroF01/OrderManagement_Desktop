@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,13 @@ namespace OrderManagement_Desktop.Services
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("http://localhost:5287/api/");
+        }
+
+        public ProductServices(string token)
+        {
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:5287/api/");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         public async Task<List<Products>> GetProducts()
@@ -36,9 +44,21 @@ namespace OrderManagement_Desktop.Services
             return await _httpClient.GetFromJsonAsync<Products>($"Products/{id}");
         }
 
+        public async Task<Products> GetProductByName(string name)
+        {
+            var products = await _httpClient.GetFromJsonAsync<List<Products>>("Products");
+            return products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
         public async Task<bool> AddProduct(Products product)
         {
             var response = await _httpClient.PostAsJsonAsync("Products", product);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show($"Error: {responseContent}");
+            }
             return response.IsSuccessStatusCode;
         }
 

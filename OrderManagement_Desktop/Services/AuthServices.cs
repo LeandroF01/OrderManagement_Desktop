@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using OrderManagement_Desktop.Models;
+using OrderManagement_Desktop.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -29,6 +31,7 @@ namespace OrderManagement_Desktop.Services
             if (response.IsSuccessStatusCode)
             {
                 var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                ConfigurationHelper.SaveTokenToConfig(authResponse.Token);
                 return authResponse?.Token;
             }
 
