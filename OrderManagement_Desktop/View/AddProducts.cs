@@ -1,5 +1,6 @@
 ﻿using OrderManagement_Desktop.Models;
 using OrderManagement_Desktop.Services;
+using OrderManagement_Desktop.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +18,7 @@ namespace OrderManagement_Desktop.View
     {
 
         private ProductServices _productServices;
+        private ProductServices _productServicesToken;
         private ProductIngredientServices _productIngredientServices;
         private CategorieServices _categoriesServices;
         private IngredientServices _ingredientsServices;
@@ -23,7 +26,9 @@ namespace OrderManagement_Desktop.View
         public AddProducts()
         {
             InitializeComponent();
+            var token = ConfigurationHelper.GetTokenFromConfig();
             _productServices = new ProductServices();
+            _productServicesToken = new ProductServices(token);
             _productIngredientServices = new ProductIngredientServices();
             _categoriesServices = new CategorieServices();
             _ingredientsServices = new IngredientServices();
@@ -48,8 +53,8 @@ namespace OrderManagement_Desktop.View
             {
                 var categoryList = await _categoriesServices.GetCategories();
 
-                ComboBoxCategories.DisplayMember = "Name"; 
-                ComboBoxCategories.ValueMember = "CategoryID"; 
+                ComboBoxCategories.DisplayMember = "Name";
+                ComboBoxCategories.ValueMember = "CategoryID";
 
                 ComboBoxCategories.DataSource = categoryList;
             }
@@ -60,35 +65,64 @@ namespace OrderManagement_Desktop.View
         }
 
 
+
         private async void AddProduct()
         {
             try
             {
+                // Crear el producto
                 var newProduct = new Models.Products
                 {
-                    Name = "",
-                    Description = "",
-                    Price = 0,
-                    CategoryID = 0,
-                    Stock = 0,
-                    ImageURL = ""
+                    Name = TextBoxProductName.Text,
+                    Description = RichTextBoxProductDescription.Text,
+                    Price = decimal.Parse(TextBoxProductPrice.Text),
+                    CategoryID = (int)ComboBoxCategories.SelectedValue,
+                    // ImageURL = TextBoxImageURL.Text
                 };
 
-                var productIngredients = new Models.ProductIngredients
-                {
-                    ProductID = 0,
-                    IngredientID = 0,
-                    Quantity = 0,
-                };
+                var json = JsonSerializer.Serialize(newProduct);
+                MessageBox.Show(json);
 
-                var result = await _productServices.AddProduct(newProduct);
+                var result = await _productServicesToken.AddProduct(newProduct);
 
+
+                MessageBox.Show(result.ToString());
                 if (result)
                 {
-                    MessageBox.Show("Producto añadido con éxito.");
+                    var addedProduct = await _productServicesToken.GetProductByName(newProduct.Name);
+                    int productId = addedProduct?.ProductID ?? 0;
 
-                    Products productsForm = new Products();
-                    productsForm.ViewProducts();
+                    if (productId > 0)
+                    {
+                        foreach (DataGridViewRow row in DataGridViewAddIngredientes.Rows)
+                        {
+                            if (row.IsNewRow) continue; 
+
+                            var ingredientName = row.Cells["IngredientName"].Value.ToString();
+                            var ingredientQuantity = decimal.Parse(row.Cells["IngredientQuantity"].Value.ToString());
+
+                            var ingredient = await _ingredientsServices.GetIngredientByName(ingredientName);
+
+                            if (ingredient != null)
+                            {
+                                var productIngredient = new Models.ProductIngredients
+                                {
+                                    ProductID = productId,
+                                    IngredientID = ingredient.IngredientID,
+                                    Quantity = ingredientQuantity
+                                };
+
+                                await _productIngredientServices.AddProductIngredient(productIngredient);
+                            }
+                        }
+
+                        MessageBox.Show("Producto y sus ingredientes añadidos con éxito.");
+                        this.Close();
+                     }
+                    else
+                    {
+                        MessageBox.Show("Error al obtener el ID del producto.");
+                    }
                 }
                 else
                 {
@@ -100,6 +134,7 @@ namespace OrderManagement_Desktop.View
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
+
 
         private async void UpdateProduct()
         {
@@ -173,6 +208,11 @@ namespace OrderManagement_Desktop.View
             {
                 MessageBox.Show("Seleccione un ingrediente y especifique la cantidad.", "Información faltante", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void ButtonAddProduct_Click(object sender, EventArgs e)
+        {
+            AddProduct();
         }
     }
 }
