@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox3 = new TextBox();
+            TextBoxProductName = new TextBox();
+            TextBoxProductPrice = new TextBox();
             ComboBoxCategories = new ComboBox();
-            richTextBox1 = new RichTextBox();
+            RichTextBoxProductDescription = new RichTextBox();
             ListBoxIngredientes = new ListBox();
             DataGridViewAddIngredientes = new DataGridView();
             ButtonConfirmIngredient = new Button();
             TextBoxIngredientes = new TextBox();
             TextBoxAmountIngredients = new TextBox();
+            ButtonAddProduct = new Button();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAddIngredientes).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // TextBoxProductName
             // 
-            textBox1.Location = new Point(40, 43);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(233, 23);
-            textBox1.TabIndex = 0;
+            TextBoxProductName.Location = new Point(40, 43);
+            TextBoxProductName.Name = "TextBoxProductName";
+            TextBoxProductName.Size = new Size(233, 23);
+            TextBoxProductName.TabIndex = 0;
             // 
-            // textBox3
+            // TextBoxProductPrice
             // 
-            textBox3.Location = new Point(40, 154);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(233, 23);
-            textBox3.TabIndex = 2;
+            TextBoxProductPrice.Location = new Point(40, 154);
+            TextBoxProductPrice.Name = "TextBoxProductPrice";
+            TextBoxProductPrice.Size = new Size(233, 23);
+            TextBoxProductPrice.TabIndex = 2;
             // 
             // ComboBoxCategories
             // 
@@ -62,14 +63,14 @@
             ComboBoxCategories.Size = new Size(233, 23);
             ComboBoxCategories.TabIndex = 5;
             // 
-            // richTextBox1
+            // RichTextBoxProductDescription
             // 
-            richTextBox1.BorderStyle = BorderStyle.FixedSingle;
-            richTextBox1.Location = new Point(40, 88);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(233, 43);
-            richTextBox1.TabIndex = 6;
-            richTextBox1.Text = "";
+            RichTextBoxProductDescription.BorderStyle = BorderStyle.FixedSingle;
+            RichTextBoxProductDescription.Location = new Point(40, 88);
+            RichTextBoxProductDescription.Name = "RichTextBoxProductDescription";
+            RichTextBoxProductDescription.Size = new Size(233, 43);
+            RichTextBoxProductDescription.TabIndex = 6;
+            RichTextBoxProductDescription.Text = "";
             // 
             // ListBoxIngredientes
             // 
@@ -112,20 +113,31 @@
             TextBoxAmountIngredients.Size = new Size(95, 23);
             TextBoxAmountIngredients.TabIndex = 11;
             // 
+            // ButtonAddProduct
+            // 
+            ButtonAddProduct.Location = new Point(584, 370);
+            ButtonAddProduct.Name = "ButtonAddProduct";
+            ButtonAddProduct.Size = new Size(127, 48);
+            ButtonAddProduct.TabIndex = 12;
+            ButtonAddProduct.Text = "button1";
+            ButtonAddProduct.UseVisualStyleBackColor = true;
+            ButtonAddProduct.Click += ButtonAddProduct_Click;
+            // 
             // AddProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(763, 450);
+            Controls.Add(ButtonAddProduct);
             Controls.Add(TextBoxAmountIngredients);
             Controls.Add(TextBoxIngredientes);
             Controls.Add(ButtonConfirmIngredient);
             Controls.Add(DataGridViewAddIngredientes);
             Controls.Add(ListBoxIngredientes);
-            Controls.Add(richTextBox1);
+            Controls.Add(RichTextBoxProductDescription);
             Controls.Add(ComboBoxCategories);
-            Controls.Add(textBox3);
-            Controls.Add(textBox1);
+            Controls.Add(TextBoxProductPrice);
+            Controls.Add(TextBoxProductName);
             Name = "AddProducts";
             Text = "AddProducts";
             Load += AddProducts_Load;
@@ -136,14 +148,15 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox3;
+        private TextBox TextBoxProductName;
+        private TextBox TextBoxProductPrice;
         private ComboBox ComboBoxCategories;
-        private RichTextBox richTextBox1;
+        private RichTextBox RichTextBoxProductDescription;
         private ListBox ListBoxIngredientes;
         private DataGridView DataGridViewAddIngredientes;
         private Button ButtonConfirmIngredient;
         private TextBox TextBoxIngredientes;
         private TextBox TextBoxAmountIngredients;
+        private Button ButtonAddProduct;
     }
 }
