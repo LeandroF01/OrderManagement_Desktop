@@ -38,6 +38,7 @@
             TextBoxIngredientes = new TextBox();
             TextBoxAmountIngredients = new TextBox();
             ButtonAddProduct = new Button();
+            TextBoxImageURL = new TextBox();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAddIngredientes).BeginInit();
             SuspendLayout();
             // 
@@ -123,11 +124,19 @@
             ButtonAddProduct.UseVisualStyleBackColor = true;
             ButtonAddProduct.Click += ButtonAddProduct_Click;
             // 
+            // TextBoxImageURL
+            // 
+            TextBoxImageURL.Location = new Point(487, 280);
+            TextBoxImageURL.Name = "TextBoxImageURL";
+            TextBoxImageURL.Size = new Size(100, 23);
+            TextBoxImageURL.TabIndex = 13;
+            // 
             // AddProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(763, 450);
+            Controls.Add(TextBoxImageURL);
             Controls.Add(ButtonAddProduct);
             Controls.Add(TextBoxAmountIngredients);
             Controls.Add(TextBoxIngredientes);
@@ -158,5 +167,6 @@
         private TextBox TextBoxIngredientes;
         private TextBox TextBoxAmountIngredients;
         private Button ButtonAddProduct;
+        private TextBox TextBoxImageURL;
     }
 }

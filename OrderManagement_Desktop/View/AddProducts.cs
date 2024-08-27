@@ -70,15 +70,27 @@ namespace OrderManagement_Desktop.View
         {
             try
             {
+                MessageBox.Show(ComboBoxCategories.SelectedValue.ToString());
                 // Crear el producto
+                //var newProduct = new Models.Products
+                //{
+                //    Name = TextBoxProductName.Text,
+                //    Description = RichTextBoxProductDescription.Text,
+                //    Price = decimal.Parse(TextBoxProductPrice.Text),
+                //    CategoryID = (int)ComboBoxCategories.SelectedValue,
+                //    ImageURL = ""
+                //    // TextBoxImageURL.Text
+                //};
+
                 var newProduct = new Models.Products
                 {
                     Name = TextBoxProductName.Text,
                     Description = RichTextBoxProductDescription.Text,
                     Price = decimal.Parse(TextBoxProductPrice.Text),
                     CategoryID = (int)ComboBoxCategories.SelectedValue,
-                    // ImageURL = TextBoxImageURL.Text
+                    ImageURL = string.IsNullOrWhiteSpace(TextBoxImageURL.Text) ? null : TextBoxImageURL.Text
                 };
+
 
                 var json = JsonSerializer.Serialize(newProduct);
                 MessageBox.Show(json);

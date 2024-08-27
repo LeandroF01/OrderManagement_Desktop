@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace OrderManagement_Desktop.Services
@@ -55,7 +56,12 @@ namespace OrderManagement_Desktop.Services
             var response = await _httpClient.PostAsJsonAsync("Products", product);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
+            {
+                var addedProduct = JsonSerializer.Deserialize<Products>(responseContent);
+                product.ProductID = addedProduct.ProductID;
+            }
+            else
             {
                 MessageBox.Show($"Error: {responseContent}");
             }
