@@ -51,14 +51,14 @@ namespace OrderManagement_Desktop.Services
             return products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<bool> AddProduct(Products product)
+        public async Task<bool> AddProduct(ProductDOT product)
         {
             var response = await _httpClient.PostAsJsonAsync("Products", product);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                var addedProduct = JsonSerializer.Deserialize<Products>(responseContent);
+                var addedProduct = JsonSerializer.Deserialize<ProductDOT>(responseContent);
                 product.ProductID = addedProduct.ProductID;
             }
             else
