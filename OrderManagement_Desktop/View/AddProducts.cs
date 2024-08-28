@@ -20,6 +20,7 @@ namespace OrderManagement_Desktop.View
         private ProductServices _productServices;
         private ProductServices _productServicesToken;
         private ProductIngredientServices _productIngredientServices;
+        private ProductIngredientServices _productIngredientServicesToken;
         private CategorieServices _categoriesServices;
         private IngredientServices _ingredientsServices;
 
@@ -30,6 +31,7 @@ namespace OrderManagement_Desktop.View
             _productServices = new ProductServices();
             _productServicesToken = new ProductServices(token);
             _productIngredientServices = new ProductIngredientServices();
+            _productIngredientServicesToken = new ProductIngredientServices(token);
             _categoriesServices = new CategorieServices();
             _ingredientsServices = new IngredientServices();
         }
@@ -82,7 +84,7 @@ namespace OrderManagement_Desktop.View
                 //    // TextBoxImageURL.Text
                 //};
 
-                var newProduct = new Models.Products
+                var newProduct = new Models.ProductDOT
                 {
                     Name = TextBoxProductName.Text,
                     Description = RichTextBoxProductDescription.Text,
@@ -93,16 +95,16 @@ namespace OrderManagement_Desktop.View
 
 
                 var json = JsonSerializer.Serialize(newProduct);
-                MessageBox.Show(json);
 
                 var result = await _productServicesToken.AddProduct(newProduct);
 
 
-                MessageBox.Show(result.ToString());
                 if (result)
                 {
                     var addedProduct = await _productServicesToken.GetProductByName(newProduct.Name);
                     int productId = addedProduct?.ProductID ?? 0;
+
+                    MessageBox.Show(productId.ToString());
 
                     if (productId > 0)
                     {
@@ -117,14 +119,19 @@ namespace OrderManagement_Desktop.View
 
                             if (ingredient != null)
                             {
-                                var productIngredient = new Models.ProductIngredients
+                                var productIngredient = new Models.ProductIngredientDOT
                                 {
                                     ProductID = productId,
                                     IngredientID = ingredient.IngredientID,
                                     Quantity = ingredientQuantity
                                 };
 
-                                await _productIngredientServices.AddProductIngredient(productIngredient);
+
+                                var ingredientResult = await _productIngredientServicesToken.AddProductIngredient(productIngredient);
+                                if (!ingredientResult)
+                                {
+                                    throw new Exception($"Error al añadir el ingrediente {ingredientName} al producto.");
+                                }
                             }
                         }
 
