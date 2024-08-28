@@ -47,12 +47,10 @@ namespace OrderManagement_Desktop.Services
             {
                 var response = await _httpClient.PostAsJsonAsync("Users", user);
 
-                // Leer el contenido de la respuesta
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    // Mostrar o registrar el contenido de la respuesta para diagnóstico
                     throw new Exception($"Error al agregar el usuario. Código: {response.StatusCode}, Mensaje: {responseContent}");
                 }
 
@@ -60,7 +58,6 @@ namespace OrderManagement_Desktop.Services
             }
             catch (Exception ex)
             {
-                // Log error or handle it as needed
                 throw new Exception("Error al agregar el usuario: " + ex.Message);
             }
         }
