@@ -49,5 +49,12 @@ namespace OrderManagement_Desktop.View
 
             addProductsForm.ShowDialog();
         }
+
+        private void ButtonViewCategories_Click(object sender, EventArgs e)
+        {
+            Categories categoriesForm = new Categories();
+
+            categoriesForm.ShowDialog();
+        }
     }
 }
