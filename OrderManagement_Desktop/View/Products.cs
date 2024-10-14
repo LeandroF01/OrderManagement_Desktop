@@ -56,5 +56,12 @@ namespace OrderManagement_Desktop.View
 
             categoriesForm.ShowDialog();
         }
+
+        private void ButtonViewIngredients_Click(object sender, EventArgs e)
+        {
+            Ingredient ingredientForm = new Ingredient();
+
+            ingredientForm.ShowDialog();
+        }
     }
 }
