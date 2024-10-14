@@ -39,20 +39,39 @@ namespace OrderManagement_Desktop.Services
 
         public async Task<bool> AddCategorie(Categories categories)
         {
-            var response = await _httpClient.PostAsJsonAsync("Categories", categories);
-            var responseContent = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("Categories", categories);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (response.IsSuccessStatusCode)
-            {
-                var addedCategories = JsonSerializer.Deserialize<Categories>(responseContent);
-                categories.CategoryID = addedCategories.CategoryID;
+                if (response.IsSuccessStatusCode)
+                {
+                    // Deserializa la respuesta si es exitosa
+                    var addedCategories = JsonSerializer.Deserialize<Categories>(responseContent);
+                    categories.CategoryID = addedCategories.CategoryID;
+                    MessageBox.Show("Categoría añadida correctamente.");
+                }
+                else
+                {
+                    // Obtén más detalles del error si falla
+                    MessageBox.Show($"Error: {response.StatusCode} - {responseContent}");
+                }
+                return response.IsSuccessStatusCode;
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error: {responseContent}");
+                // Manejo de errores relacionados con la solicitud HTTP
+                MessageBox.Show($"Error de solicitud HTTP: {ex.Message}");
+                return false;
             }
-            return response.IsSuccessStatusCode;
+            catch (Exception ex)
+            {
+                // Manejo de errores generales
+                MessageBox.Show($"Error general: {ex.Message}");
+                return false;
+            }
         }
+
 
         public async Task<bool> UpdateCategorie(Categories categories)
         {
