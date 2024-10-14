@@ -44,6 +44,7 @@ namespace OrderManagement_Desktop.View
                 MessageBox.Show($"Error al cargar los productos: {ex.Message}");
             }
         }
+
         private async void AddCategorie()
         {
           
