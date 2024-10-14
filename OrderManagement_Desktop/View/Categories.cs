@@ -57,7 +57,7 @@ namespace OrderManagement_Desktop.View
 
                 var json = JsonSerializer.Serialize(newCategorie);
 
-                var result = await _categoriesServices.AddCategorie(newCategorie);
+                var result = await __categoriesServicesToken.AddCategorie(newCategorie);
                 MessageBox.Show(json.ToString());
 
                 if (result)
@@ -75,11 +75,49 @@ namespace OrderManagement_Desktop.View
         {
 
         }
-
-        private void ButtonDeleteCategorie_Click(object sender, EventArgs e)
+        private async void ButtonDeleteCategorie_Click(object sender, EventArgs e)
         {
+            if (DataGridViewCategories.SelectedRows.Count > 0)
+            {
+                // Obtener el CategoryID de la categoría seleccionada
+                var selectedRow = DataGridViewCategories.SelectedRows[0];
+                var categoryId = Convert.ToInt32(selectedRow.Cells["CategoryID"].Value);
 
+                // Confirmar eliminación
+                var confirmation = MessageBox.Show("¿Estás seguro de que quieres eliminar esta categoría?",
+                                                    "Confirmación de eliminación",
+                                                    MessageBoxButtons.YesNo);
+
+                if (confirmation == DialogResult.Yes)
+                {
+                    // Intentar eliminar la categoría
+                    try
+                    {
+                        var result = await __categoriesServicesToken.DeleteCategorie(categoryId);
+
+                        if (result)
+                        {
+                            MessageBox.Show("Categoría eliminada exitosamente.");
+                            ViewCategories(); // Refrescar el DataGridView después de la eliminación
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error al eliminar la categoría.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una categoría para eliminar.");
+            }
         }
+
+
 
         private void ButtonConfirmation_Click(object sender, EventArgs e)
         {
