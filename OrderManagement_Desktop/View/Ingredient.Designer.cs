@@ -76,7 +76,7 @@
             PanelAddIngredient.Controls.Add(TextBoxUnit);
             PanelAddIngredient.Controls.Add(TextBoxQuantity);
             PanelAddIngredient.Controls.Add(TextBoxName);
-            PanelAddIngredient.Location = new Point(54, 31);
+            PanelAddIngredient.Location = new Point(53, 46);
             PanelAddIngredient.Name = "PanelAddIngredient";
             PanelAddIngredient.Size = new Size(258, 262);
             PanelAddIngredient.TabIndex = 3;
@@ -127,7 +127,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(368, 450);
+            ClientSize = new Size(368, 413);
             Controls.Add(PanelAddIngredient);
             Controls.Add(ButtonDeleteIngredient);
             Controls.Add(ButtonAddIngredient);

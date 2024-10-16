@@ -23,7 +23,18 @@ namespace OrderManagement_Desktop.View
 
             productsForm.ShowDialog();
         }
-    
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ButtonViewOrders_Click(object sender, EventArgs e)
+        {
+            Orders ordersForm = new Orders();
+
+            ordersForm.ShowDialog();
+        }
     }
 }
 

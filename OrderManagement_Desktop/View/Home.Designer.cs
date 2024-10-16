@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             ButtonViewProducts = new Button();
+            ButtonViewOrders = new Button();
             SuspendLayout();
             // 
             // ButtonViewProducts
@@ -41,19 +42,32 @@
             ButtonViewProducts.UseVisualStyleBackColor = true;
             ButtonViewProducts.Click += ButtonViewProducts_Click;
             // 
+            // ButtonViewOrders
+            // 
+            ButtonViewOrders.Location = new Point(191, 44);
+            ButtonViewOrders.Name = "ButtonViewOrders";
+            ButtonViewOrders.Size = new Size(102, 47);
+            ButtonViewOrders.TabIndex = 1;
+            ButtonViewOrders.Text = "ORDERS";
+            ButtonViewOrders.UseVisualStyleBackColor = true;
+            ButtonViewOrders.Click += ButtonViewOrders_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(ButtonViewOrders);
             Controls.Add(ButtonViewProducts);
             Name = "Home";
             Text = "Home";
+            Load += Home_Load;
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button ButtonViewProducts;
+        private Button ButtonViewOrders;
     }
 }
