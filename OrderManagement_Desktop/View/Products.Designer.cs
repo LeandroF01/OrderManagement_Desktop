@@ -37,6 +37,7 @@
             // 
             // DataGridViewProducts
             // 
+            DataGridViewProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridViewProducts.Location = new Point(59, 84);
             DataGridViewProducts.Name = "DataGridViewProducts";
@@ -77,7 +78,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(922, 511);
             Controls.Add(ButtonViewIngredients);
             Controls.Add(ButtonViewCategories);
             Controls.Add(ButtonAddProduct);
