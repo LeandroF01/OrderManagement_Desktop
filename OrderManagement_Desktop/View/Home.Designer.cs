@@ -53,7 +53,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(200, 550);
+            panel1.Size = new Size(200, 761);
             panel1.TabIndex = 2;
             // 
             // ButtonConfiguration
@@ -61,7 +61,7 @@
             ButtonConfiguration.Dock = DockStyle.Bottom;
             ButtonConfiguration.FlatAppearance.BorderColor = Color.White;
             ButtonConfiguration.FlatStyle = FlatStyle.Flat;
-            ButtonConfiguration.Location = new Point(0, 510);
+            ButtonConfiguration.Location = new Point(0, 721);
             ButtonConfiguration.Name = "ButtonConfiguration";
             ButtonConfiguration.Size = new Size(200, 40);
             ButtonConfiguration.TabIndex = 8;
@@ -147,16 +147,17 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(200, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(938, 550);
+            panel2.Size = new Size(984, 761);
             panel2.TabIndex = 3;
             // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1138, 550);
+            ClientSize = new Size(1184, 761);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            MinimumSize = new Size(1200, 800);
             Name = "Home";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Home";

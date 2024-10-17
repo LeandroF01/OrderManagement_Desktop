@@ -65,7 +65,7 @@ namespace OrderManagement_Desktop.View
 
         private void ButtonOrders_Click(object sender, EventArgs e)
         {
-
+            openChildForm(new Orders());
         }
 
         private void ButtonTables_Click(object sender, EventArgs e)
