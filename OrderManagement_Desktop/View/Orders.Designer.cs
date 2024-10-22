@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
+            ButtonPending = new Button();
+            ButtonProgress = new Button();
+            ButtonCompleted = new Button();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -40,11 +43,44 @@
             flowLayoutPanel1.Size = new Size(600, 400);
             flowLayoutPanel1.TabIndex = 1;
             // 
+            // ButtonPending
+            // 
+            ButtonPending.Location = new Point(379, 482);
+            ButtonPending.Name = "ButtonPending";
+            ButtonPending.Size = new Size(89, 30);
+            ButtonPending.TabIndex = 2;
+            ButtonPending.Text = "ButtoPending";
+            ButtonPending.UseVisualStyleBackColor = true;
+            ButtonPending.Click += ButtonPending_Click;
+            // 
+            // ButtonProgress
+            // 
+            ButtonProgress.Location = new Point(493, 482);
+            ButtonProgress.Name = "ButtonProgress";
+            ButtonProgress.Size = new Size(89, 30);
+            ButtonProgress.TabIndex = 3;
+            ButtonProgress.Text = "button2";
+            ButtonProgress.UseVisualStyleBackColor = true;
+            ButtonProgress.Click += ButtonProgress_Click;
+            // 
+            // ButtonCompleted
+            // 
+            ButtonCompleted.Location = new Point(612, 482);
+            ButtonCompleted.Name = "ButtonCompleted";
+            ButtonCompleted.Size = new Size(89, 30);
+            ButtonCompleted.TabIndex = 4;
+            ButtonCompleted.Text = "button3";
+            ButtonCompleted.UseVisualStyleBackColor = true;
+            ButtonCompleted.Click += ButtonCompleted_Click;
+            // 
             // Orders
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(922, 511);
+            ClientSize = new Size(922, 524);
+            Controls.Add(ButtonCompleted);
+            Controls.Add(ButtonProgress);
+            Controls.Add(ButtonPending);
             Controls.Add(flowLayoutPanel1);
             Name = "Orders";
             Text = " ";
@@ -55,5 +91,8 @@
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button ButtonPending;
+        private Button ButtonProgress;
+        private Button ButtonCompleted;
     }
 }
