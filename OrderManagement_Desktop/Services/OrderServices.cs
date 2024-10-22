@@ -1,6 +1,7 @@
 ﻿using OrderManagement_Desktop.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -45,6 +46,14 @@ namespace OrderManagement_Desktop.Services
         public async Task<bool> UpdateOrder(Orders orders)
         {
             var response = await _httpClient.PutAsJsonAsync($"Orders/{orders.OrderID}", orders);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var statusCode = (int)response.StatusCode;  // Obtener el código de estado
+                MessageBox.Show($"Error en la respuesta de la API (Código: {statusCode}): {errorContent}");
+            }
+
             return response.IsSuccessStatusCode;
         }
 
