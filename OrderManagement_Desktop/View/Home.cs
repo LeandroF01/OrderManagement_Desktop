@@ -23,12 +23,6 @@ namespace OrderManagement_Desktop.View
 
         }
 
-        private void ButtonViewOrders_Click(object sender, EventArgs e)
-        {
-            Orders ordersForm = new Orders();
-
-            ordersForm.ShowDialog();
-        }
 
         private Form activeForm = null;
 
