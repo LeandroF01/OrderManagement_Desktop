@@ -22,7 +22,7 @@ namespace OrderManagement_Desktop.View
         private OrderServices __ordersServices;
         private OrderServices __ordersServicesToken;
         private UserServices __userServicesToken;
-
+        private OrderDetailServices _orderDetailServicesToken;
 
         public Orders()
         {
@@ -31,6 +31,7 @@ namespace OrderManagement_Desktop.View
             __ordersServices = new OrderServices();
             __ordersServicesToken = new OrderServices(token);
             __userServicesToken = new UserServices(token);
+            _orderDetailServicesToken = new OrderDetailServices(token);
         }
 
         private void Orders_Load(object sender, EventArgs e)
@@ -126,14 +127,27 @@ namespace OrderManagement_Desktop.View
 
         private OrderManagement_Desktop.Models.Orders selectedOrder;
 
-        private void SelectOrder(OrderManagement_Desktop.Models.Orders pedido)
+        private async void SelectOrder(OrderManagement_Desktop.Models.Orders pedido)
         {
-            // Guardar el pedido seleccionado
             selectedOrder = pedido;
-            //MessageBox.Show($"OrderID: {selectedOrder.OrderID}\n" +
-            //      $"Cliente: {selectedOrder.UserID}\n" +
-            //      $"Total: {selectedOrder.Total}\n" +
-            //      $"Estado: {selectedOrder.Status}");
+
+            //  DataGridViewDetalleOrders
+
+            try
+            {
+                // Obtener los detalles del pedido seleccionado
+                var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(pedido.OrderID);
+
+                // Establecer DataSource a null antes de asignar los nuevos datos
+                DataGridViewDetalleOrders.DataSource = null;
+
+                // Asignar los detalles obtenidos como la fuente de datos
+                DataGridViewDetalleOrders.DataSource = orderDetails;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los detalles del pedido: {ex.Message}");
+            }
         }
 
         private async Task UpdateOrderStatus(string newStatus)
@@ -144,7 +158,7 @@ namespace OrderManagement_Desktop.View
 
                 var orderPut = new OrderManagement_Desktop.Models.Orders
                 {
-                    OrderID = selectedOrder.OrderID,  
+                    OrderID = selectedOrder.OrderID,
                     UserID = selectedOrder.UserID,
                     Date = selectedOrder.Date,
                     Status = newStatus,
@@ -189,6 +203,11 @@ namespace OrderManagement_Desktop.View
         private async void ButtonCompleted_Click(object sender, EventArgs e)
         {
             await UpdateOrderStatus("Completed");
+        }
+
+        private void ButtonNewOrder_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
