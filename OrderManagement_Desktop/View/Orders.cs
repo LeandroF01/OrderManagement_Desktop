@@ -132,22 +132,34 @@ namespace OrderManagement_Desktop.View
             selectedOrder = pedido;
 
             //  DataGridViewDetalleOrders
+            var id = pedido.OrderID;
+            var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(id);
 
-            try
-            {
-                // Obtener los detalles del pedido seleccionado
-                var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(pedido.OrderID);
+            // Si esperas varios detalles para una orden, usa una lista,
+            // pero aquí estás obteniendo solo un detalle por ID
+            DataGridViewDetalleOrders.DataSource = new List<OrderDetails> { orderDetails };
 
-                // Establecer DataSource a null antes de asignar los nuevos datos
-                DataGridViewDetalleOrders.DataSource = null;
 
-                // Asignar los detalles obtenidos como la fuente de datos
-                DataGridViewDetalleOrders.DataSource = orderDetails;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar los detalles del pedido: {ex.Message}");
-            }
+            //try
+            //{
+            //    // Obtener los detalles del pedido como una lista
+            //    var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(id);
+
+            //    // Verificar si la lista tiene datos
+            //    if (orderDetails != null) // Verificamos que no esté vacía
+            //    {
+            //        DataGridViewDetalleOrders.DataSource = null;  // Limpiar el DataGridView
+            //        DataGridViewDetalleOrders.DataSource = orderDetails;  // Cargar los datos al DataGridView
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("No se encontraron detalles para este pedido.");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error al cargar los detalles del pedido: {ex.Message}");
+            //}
         }
 
         private async Task UpdateOrderStatus(string newStatus)
