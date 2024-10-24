@@ -15,5 +15,11 @@ namespace OrderManagement_Desktop.Models
         public int ProductID { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        // Navigation properties
+        [ForeignKey("OrderID")]
+        public virtual Orders Orders { get; set; }
+
+        [ForeignKey("ProductID")]
+        public virtual Products Products { get; set; }
     }
 }
