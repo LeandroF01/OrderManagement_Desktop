@@ -131,35 +131,26 @@ namespace OrderManagement_Desktop.View
         {
             selectedOrder = pedido;
 
-            //  DataGridViewDetalleOrders
-            var id = pedido.OrderID;
-            var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(id);
+            try
+            {
+                var id = pedido.OrderID;
+                var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(id);
 
-            // Si esperas varios detalles para una orden, usa una lista,
-            // pero aquí estás obteniendo solo un detalle por ID
-            DataGridViewDetalleOrders.DataSource = new List<OrderDetails> { orderDetails };
+                // Si encuentras detalles, se agregan al DataGridView
+                DataGridViewDetalleOrders.DataSource = new List<OrderDetails> { orderDetails };
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                // Si no se encuentra ningún detalle, se muestra un mensaje y se limpia el DataGridView
+                MessageBox.Show("No hay detalles disponibles para este pedido.");
+                DataGridViewDetalleOrders.DataSource = null;
+            }
+            catch (Exception ex)
+            {
+                // Captura cualquier otro error
+                MessageBox.Show($"Error al cargar los detalles del pedido: {ex.Message}");
+            }
 
-
-            //try
-            //{
-            //    // Obtener los detalles del pedido como una lista
-            //    var orderDetails = await _orderDetailServicesToken.GetOrderDetailById(id);
-
-            //    // Verificar si la lista tiene datos
-            //    if (orderDetails != null) // Verificamos que no esté vacía
-            //    {
-            //        DataGridViewDetalleOrders.DataSource = null;  // Limpiar el DataGridView
-            //        DataGridViewDetalleOrders.DataSource = orderDetails;  // Cargar los datos al DataGridView
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("No se encontraron detalles para este pedido.");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Error al cargar los detalles del pedido: {ex.Message}");
-            //}
         }
 
         private async Task UpdateOrderStatus(string newStatus)
@@ -219,7 +210,62 @@ namespace OrderManagement_Desktop.View
 
         private void ButtonNewOrder_Click(object sender, EventArgs e)
         {
-
+            ViewAllDetails();
+            PanelDetail.Visible = true;
         }
+
+        private async void ViewAllDetails()
+        {
+            try
+            {
+                // Obtener todas las órdenes desde la API
+                var ordersList = await __ordersServicesToken.GetOrders();
+
+                // Verificar el total de órdenes obtenidas
+                MessageBox.Show($"Total de órdenes obtenidas: {ordersList.Count}");
+
+                // Imprimir todas las órdenes para ver detalles
+                foreach (var order in ordersList)
+                {
+                    Console.WriteLine($"OrderID: {order.OrderID}, Fecha: {order.Date}, Estado: {order.Status}");
+                }
+
+                // Filtrar las órdenes pendientes de hoy
+                var today = DateTime.Today;
+                var pendingOrderIdsToday = ordersList
+                    .Where(order => order.Date.Date == today && order.Status == "Pending")
+                    .Select(order => order.OrderID)
+                    .ToList();
+
+    
+
+                // Obtener todos los detalles de las órdenes
+                var allOrderDetails = await _orderDetailServicesToken.GetOrderDetails();
+
+                // Verificar el total de detalles obtenidos
+        
+
+             
+               // Filtrar los detalles que correspondan a las órdenes pendientes de hoy
+               var allPendingOrderDetails = allOrderDetails
+                    .Where(detail => { pendingOrderIdsToday.Contains(detail.OrderID)})
+                    .ToList();
+
+                // Mostrar la cantidad de detalles pendientes encontrados
+                MessageBox.Show($"Cantidad de detalles pendientes encontrados: {allPendingOrderDetails.Count}");
+
+                // Asignar los detalles filtrados al DataGridView
+                DataGridViewAllDetails.DataSource = null;
+                DataGridViewAllDetails.AutoGenerateColumns = true;
+                DataGridViewAllDetails.DataSource = allPendingOrderDetails;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los detalles de las órdenes pendientes: {ex.Message}");
+            }
+        }
+
+
+
     }
 }

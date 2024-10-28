@@ -33,10 +33,14 @@
             ButtonProgress = new Button();
             ButtonCompleted = new Button();
             panel1 = new Panel();
-            DataGridViewDetalleOrders = new DataGridView();
             ButtonNewOrder = new Button();
+            DataGridViewDetalleOrders = new DataGridView();
+            DataGridViewAllDetails = new DataGridView();
+            PanelDetail = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridViewDetalleOrders).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridViewAllDetails).BeginInit();
+            PanelDetail.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -85,18 +89,11 @@
             // 
             panel1.BackColor = SystemColors.Window;
             panel1.Controls.Add(ButtonNewOrder);
+            panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(922, 70);
             panel1.TabIndex = 6;
-            // 
-            // DataGridViewDetalleOrders
-            // 
-            DataGridViewDetalleOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridViewDetalleOrders.Location = new Point(657, 104);
-            DataGridViewDetalleOrders.Name = "DataGridViewDetalleOrders";
-            DataGridViewDetalleOrders.Size = new Size(240, 372);
-            DataGridViewDetalleOrders.TabIndex = 7;
             // 
             // ButtonNewOrder
             // 
@@ -108,11 +105,37 @@
             ButtonNewOrder.UseVisualStyleBackColor = true;
             ButtonNewOrder.Click += ButtonNewOrder_Click;
             // 
+            // DataGridViewDetalleOrders
+            // 
+            DataGridViewDetalleOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridViewDetalleOrders.Location = new Point(657, 76);
+            DataGridViewDetalleOrders.Name = "DataGridViewDetalleOrders";
+            DataGridViewDetalleOrders.Size = new Size(253, 400);
+            DataGridViewDetalleOrders.TabIndex = 7;
+            // 
+            // DataGridViewAllDetails
+            // 
+            DataGridViewAllDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridViewAllDetails.Location = new Point(44, 29);
+            DataGridViewAllDetails.Name = "DataGridViewAllDetails";
+            DataGridViewAllDetails.Size = new Size(515, 399);
+            DataGridViewAllDetails.TabIndex = 0;
+            // 
+            // PanelDetail
+            // 
+            PanelDetail.Controls.Add(DataGridViewAllDetails);
+            PanelDetail.Location = new Point(0, 73);
+            PanelDetail.Name = "PanelDetail";
+            PanelDetail.Size = new Size(922, 447);
+            PanelDetail.TabIndex = 0;
+            PanelDetail.Visible = false;
+            // 
             // Orders
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(922, 524);
+            Controls.Add(PanelDetail);
             Controls.Add(DataGridViewDetalleOrders);
             Controls.Add(ButtonCompleted);
             Controls.Add(ButtonProgress);
@@ -124,6 +147,8 @@
             Load += Orders_Load;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DataGridViewDetalleOrders).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridViewAllDetails).EndInit();
+            PanelDetail.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -136,5 +161,7 @@
         private Panel panel1;
         private Button ButtonNewOrder;
         private DataGridView DataGridViewDetalleOrders;
+        private DataGridView DataGridViewAllDetails;
+        private Panel PanelDetail;
     }
 }
