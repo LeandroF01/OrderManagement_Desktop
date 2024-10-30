@@ -221,15 +221,6 @@ namespace OrderManagement_Desktop.View
                 // Obtener todas las órdenes desde la API
                 var ordersList = await __ordersServicesToken.GetOrders();
 
-                // Verificar el total de órdenes obtenidas
-                MessageBox.Show($"Total de órdenes obtenidas: {ordersList.Count}");
-
-                // Imprimir todas las órdenes para ver detalles
-                foreach (var order in ordersList)
-                {
-                    Console.WriteLine($"OrderID: {order.OrderID}, Fecha: {order.Date}, Estado: {order.Status}");
-                }
-
                 // Filtrar las órdenes pendientes de hoy
                 var today = DateTime.Today;
                 var pendingOrderIdsToday = ordersList
@@ -237,24 +228,21 @@ namespace OrderManagement_Desktop.View
                     .Select(order => order.OrderID)
                     .ToList();
 
-    
+                if (pendingOrderIdsToday.Count == 0)
+                {
+                    MessageBox.Show("No hay órdenes pendientes para hoy.");
+                    return;
+                }
 
                 // Obtener todos los detalles de las órdenes
                 var allOrderDetails = await _orderDetailServicesToken.GetOrderDetails();
 
-                // Verificar el total de detalles obtenidos
-        
-
-             
-               // Filtrar los detalles que correspondan a las órdenes pendientes de hoy
-               var allPendingOrderDetails = allOrderDetails
-                    .Where(detail => { pendingOrderIdsToday.Contains(detail.OrderID)})
+                // Filtrar detalles asociados con órdenes pendientes
+                var allPendingOrderDetails = allOrderDetails
+                    .Where(detail => pendingOrderIdsToday.Contains(detail.OrderID))
                     .ToList();
 
-                // Mostrar la cantidad de detalles pendientes encontrados
-                MessageBox.Show($"Cantidad de detalles pendientes encontrados: {allPendingOrderDetails.Count}");
-
-                // Asignar los detalles filtrados al DataGridView
+                // Asignar los detalles al DataGridView
                 DataGridViewAllDetails.DataSource = null;
                 DataGridViewAllDetails.AutoGenerateColumns = true;
                 DataGridViewAllDetails.DataSource = allPendingOrderDetails;
@@ -264,6 +252,7 @@ namespace OrderManagement_Desktop.View
                 MessageBox.Show($"Error al cargar los detalles de las órdenes pendientes: {ex.Message}");
             }
         }
+
 
 
 
