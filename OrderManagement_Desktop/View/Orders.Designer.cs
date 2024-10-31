@@ -37,10 +37,14 @@
             DataGridViewDetalleOrders = new DataGridView();
             DataGridViewAllDetails = new DataGridView();
             PanelDetail = new Panel();
+            dataGridView1 = new DataGridView();
+            button1 = new Button();
+            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridViewDetalleOrders).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAllDetails).BeginInit();
             PanelDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -118,17 +122,46 @@
             DataGridViewAllDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridViewAllDetails.Location = new Point(44, 29);
             DataGridViewAllDetails.Name = "DataGridViewAllDetails";
-            DataGridViewAllDetails.Size = new Size(515, 399);
+            DataGridViewAllDetails.Size = new Size(474, 355);
             DataGridViewAllDetails.TabIndex = 0;
             // 
             // PanelDetail
             // 
+            PanelDetail.Controls.Add(button2);
+            PanelDetail.Controls.Add(button1);
+            PanelDetail.Controls.Add(dataGridView1);
             PanelDetail.Controls.Add(DataGridViewAllDetails);
             PanelDetail.Location = new Point(0, 73);
             PanelDetail.Name = "PanelDetail";
             PanelDetail.Size = new Size(922, 447);
             PanelDetail.TabIndex = 0;
             PanelDetail.Visible = false;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(584, 29);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(286, 355);
+            dataGridView1.TabIndex = 1;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(429, 398);
+            button1.Name = "button1";
+            button1.Size = new Size(89, 41);
+            button1.TabIndex = 2;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(326, 398);
+            button2.Name = "button2";
+            button2.Size = new Size(89, 41);
+            button2.TabIndex = 3;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
             // 
             // Orders
             // 
@@ -149,6 +182,7 @@
             ((System.ComponentModel.ISupportInitialize)DataGridViewDetalleOrders).EndInit();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAllDetails).EndInit();
             PanelDetail.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -163,5 +197,8 @@
         private DataGridView DataGridViewDetalleOrders;
         private DataGridView DataGridViewAllDetails;
         private Panel PanelDetail;
+        private DataGridView dataGridView1;
+        private Button button2;
+        private Button button1;
     }
 }
