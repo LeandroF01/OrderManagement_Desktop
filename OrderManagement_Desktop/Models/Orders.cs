@@ -16,9 +16,12 @@ namespace OrderManagement_Desktop.Models
         public string Status { get; set; }
         public string OrderType { get; set; } 
         public decimal Total { get; set; }
+        public int? TableID { get; set; }
         // Navigation property for User
         [ForeignKey("UserID")]
         public virtual Users Users { get; set; }
+        [ForeignKey("TableID")]
+        public virtual Tables Table { get; set; }
 
     }
 }
