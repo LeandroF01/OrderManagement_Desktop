@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using Aspose.CAD;
 using System.Security.Principal;
 using OrderManagement_Desktop.Services;
+using OrderManagement_Desktop.Models;
 
 
 namespace OrderManagement_Desktop.View
@@ -51,16 +52,17 @@ namespace OrderManagement_Desktop.View
             }
         }
 
-
         private async Task ViewCategories()
         {
             try
             {
                 var categoryList = await _categoriesServices.GetCategories();
 
+                // Agregar opción "All" para mostrar todas las categorías
+                categoryList.Insert(0, new Models.Categories { CategoryID = 0, Name = "All" });
+
                 ComboBoxCategories.DisplayMember = "Name";
                 ComboBoxCategories.ValueMember = "CategoryID";
-
                 ComboBoxCategories.DataSource = categoryList;
             }
             catch (Exception ex)
@@ -100,5 +102,64 @@ namespace OrderManagement_Desktop.View
                 MessageBox.Show("Seleccione un producto para agregar.");
             }
         }
+
+        // Evento para ComboBoxCategories
+        private void ComboBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        // Evento para TextBoxSearch (búsqueda por nombre)
+        private void TextBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        // Evento para TextBoxCod (búsqueda por código)
+        private void TextBoxCod_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+        private void ApplyFilters()
+        {
+            // Verificar si el DataSource no es null antes de continuar
+            if (DataGridViewProductsGrid.DataSource == null)
+            {
+                return; // Salir si el DataSource es null
+            }
+
+            // Obtener el CurrencyManager asociado al DataGridView
+            CurrencyManager currencyManager = (CurrencyManager)BindingContext[DataGridViewProductsGrid.DataSource];
+
+            // Desactivar el CurrencyManager para evitar el error al cambiar la visibilidad de las filas
+            currencyManager.SuspendBinding();
+
+            // Obtener los valores actuales de los filtros
+            string selectedCategory = ComboBoxCategories.SelectedItem?.ToString() ?? "All";
+            string searchName = TextBoxSearch.Text.ToLower();
+            string searchCode = TextBoxCod.Text.ToLower();
+
+            // Filtrar los datos en el DataGridView
+            foreach (DataGridViewRow row in DataGridViewProductsGrid.Rows)
+            {
+                // Obtener valores de la fila
+                string category = row.Cells["CategoryID"].Value.ToString();
+                string name = row.Cells["Name"].Value.ToString().ToLower();
+                string code = row.Cells["ProductID"].Value.ToString().ToLower();
+
+                // Aplicar filtros
+                bool matchesCategory = selectedCategory == "All" || category == selectedCategory;
+                bool matchesName = string.IsNullOrEmpty(searchName) || name.Contains(searchName);
+                bool matchesCode = string.IsNullOrEmpty(searchCode) || code.Contains(searchCode);
+
+                // Mostrar u ocultar la fila según si cumple los filtros
+                row.Visible = matchesCategory && matchesName && matchesCode;
+            }
+
+            // Reanudar el CurrencyManager después de aplicar los filtros
+            currencyManager.ResumeBinding();
+        }
+
+
     }
 }

@@ -84,6 +84,7 @@
             TextBoxSearch.Name = "TextBoxSearch";
             TextBoxSearch.Size = new Size(183, 23);
             TextBoxSearch.TabIndex = 4;
+            TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
             // 
             // TextBoxCod
             // 
@@ -91,6 +92,7 @@
             TextBoxCod.Name = "TextBoxCod";
             TextBoxCod.Size = new Size(100, 23);
             TextBoxCod.TabIndex = 3;
+            TextBoxCod.TextChanged += TextBoxCod_TextChanged;
             // 
             // ComboBoxCategories
             // 
@@ -99,6 +101,7 @@
             ComboBoxCategories.Name = "ComboBoxCategories";
             ComboBoxCategories.Size = new Size(183, 23);
             ComboBoxCategories.TabIndex = 2;
+            ComboBoxCategories.SelectedIndexChanged += ComboBoxCategories_SelectedIndexChanged;
             // 
             // DataGridViewAddProducts
             // 
