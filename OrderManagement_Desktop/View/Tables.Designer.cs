@@ -35,6 +35,10 @@
             TextBoxCod = new TextBox();
             ComboBoxCategories = new ComboBox();
             DataGridViewAddProducts = new DataGridView();
+            CANT = new DataGridViewTextBoxColumn();
+            PRODUCT = new DataGridViewTextBoxColumn();
+            UNIT_PRICE = new DataGridViewTextBoxColumn();
+            TOTAL_PRICE = new DataGridViewTextBoxColumn();
             DataGridViewProductsGrid = new DataGridView();
             PanelProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAddProducts).BeginInit();
@@ -53,7 +57,7 @@
             PanelProducts.Dock = DockStyle.Fill;
             PanelProducts.Location = new Point(0, 0);
             PanelProducts.Name = "PanelProducts";
-            PanelProducts.Size = new Size(975, 519);
+            PanelProducts.Size = new Size(968, 722);
             PanelProducts.TabIndex = 0;
             // 
             // ButtonAddProduct
@@ -64,6 +68,7 @@
             ButtonAddProduct.TabIndex = 6;
             ButtonAddProduct.Text = "button1";
             ButtonAddProduct.UseVisualStyleBackColor = true;
+            ButtonAddProduct.Click += ButtonAddProduct_Click;
             // 
             // TextBoxCant
             // 
@@ -98,24 +103,45 @@
             // DataGridViewAddProducts
             // 
             DataGridViewAddProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridViewAddProducts.Location = new Point(636, 173);
+            DataGridViewAddProducts.Columns.AddRange(new DataGridViewColumn[] { CANT, PRODUCT, UNIT_PRICE, TOTAL_PRICE });
+            DataGridViewAddProducts.Location = new Point(494, 173);
             DataGridViewAddProducts.Name = "DataGridViewAddProducts";
-            DataGridViewAddProducts.Size = new Size(240, 324);
+            DataGridViewAddProducts.Size = new Size(442, 324);
             DataGridViewAddProducts.TabIndex = 1;
+            // 
+            // CANT
+            // 
+            CANT.HeaderText = "CANT";
+            CANT.Name = "CANT";
+            // 
+            // PRODUCT
+            // 
+            PRODUCT.HeaderText = "PRODUCT";
+            PRODUCT.Name = "PRODUCT";
+            // 
+            // UNIT_PRICE
+            // 
+            UNIT_PRICE.HeaderText = "UNIT PRICE";
+            UNIT_PRICE.Name = "UNIT_PRICE";
+            // 
+            // TOTAL_PRICE
+            // 
+            TOTAL_PRICE.HeaderText = "TOTAL PRICE";
+            TOTAL_PRICE.Name = "TOTAL_PRICE";
             // 
             // DataGridViewProductsGrid
             // 
             DataGridViewProductsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridViewProductsGrid.Location = new Point(72, 173);
+            DataGridViewProductsGrid.Location = new Point(31, 173);
             DataGridViewProductsGrid.Name = "DataGridViewProductsGrid";
-            DataGridViewProductsGrid.Size = new Size(305, 324);
+            DataGridViewProductsGrid.Size = new Size(442, 324);
             DataGridViewProductsGrid.TabIndex = 0;
             // 
             // Tables
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(975, 519);
+            ClientSize = new Size(968, 722);
             Controls.Add(PanelProducts);
             Name = "Tables";
             Text = "Tables";
@@ -137,5 +163,9 @@
         private TextBox TextBoxCant;
         private TextBox TextBoxSearch;
         private TextBox TextBoxCod;
+        private DataGridViewTextBoxColumn CANT;
+        private DataGridViewTextBoxColumn PRODUCT;
+        private DataGridViewTextBoxColumn UNIT_PRICE;
+        private DataGridViewTextBoxColumn TOTAL_PRICE;
     }
 }

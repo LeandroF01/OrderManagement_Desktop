@@ -23,14 +23,18 @@ namespace OrderManagement_Desktop.View
 
     {
         private ProductServices _productServices;
+        private CategorieServices _categoriesServices;
+
         public Tables()
         {
             InitializeComponent();
             _productServices = new ProductServices();
+            _categoriesServices = new CategorieServices();
         }
         private void Tables_Load(object sender, EventArgs e)
         {
             ViewProducts();
+            ViewCategories();
         }
 
 
@@ -47,5 +51,54 @@ namespace OrderManagement_Desktop.View
             }
         }
 
+
+        private async Task ViewCategories()
+        {
+            try
+            {
+                var categoryList = await _categoriesServices.GetCategories();
+
+                ComboBoxCategories.DisplayMember = "Name";
+                ComboBoxCategories.ValueMember = "CategoryID";
+
+                ComboBoxCategories.DataSource = categoryList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar las categorías: {ex.Message}");
+            }
+        }
+
+
+        private void ButtonAddProduct_Click(object sender, EventArgs e)
+        {
+            // Verificar si hay una fila seleccionada en DataGridViewProductsGrid
+            if (DataGridViewProductsGrid.SelectedRows.Count > 0)
+            {
+                // Obtener el índice de la fila seleccionada
+                var selectedRow = DataGridViewProductsGrid.SelectedRows[0];
+
+                string productName = selectedRow.Cells["Name"].Value.ToString();
+                decimal unitPrice = Convert.ToDecimal(selectedRow.Cells["Price"].Value);
+
+                // Obtener la cantidad ingresada en el TextBox
+                if (int.TryParse(TextBoxCant.Text, out int quantity) && quantity > 0)
+                {
+                    // Calcular el total
+                    decimal total = unitPrice * quantity;
+
+                    // Agregar una nueva fila a DataGridViewAddProducts con los valores
+                    DataGridViewAddProducts.Rows.Add(quantity, productName, unitPrice, total);
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, ingrese una cantidad válida.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un producto para agregar.");
+            }
+        }
     }
 }
