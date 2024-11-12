@@ -120,6 +120,7 @@ namespace OrderManagement_Desktop.View
         {
             ApplyFilters();
         }
+
         private void ApplyFilters()
         {
             // Verificar si el DataSource no es null antes de continuar
@@ -135,20 +136,19 @@ namespace OrderManagement_Desktop.View
             currencyManager.SuspendBinding();
 
             // Obtener los valores actuales de los filtros
-            string selectedCategory = ComboBoxCategories.SelectedItem?.ToString() ?? "All";
-            string searchName = TextBoxSearch.Text.ToLower();
-            string searchCode = TextBoxCod.Text.ToLower();
+            string selectedCategory = ComboBoxCategories.SelectedValue?.ToString() ?? "All";
+            string searchName = TextBoxSearch.Text.Trim().ToLower();
+            string searchCode = TextBoxCod.Text.Trim().ToLower();
 
             // Filtrar los datos en el DataGridView
             foreach (DataGridViewRow row in DataGridViewProductsGrid.Rows)
             {
                 // Obtener valores de la fila
-                string category = row.Cells["CategoryID"].Value.ToString();
-                string name = row.Cells["Name"].Value.ToString().ToLower();
-                string code = row.Cells["ProductID"].Value.ToString().ToLower();
+                string category = row.Cells["CategoryID"].Value?.ToString();
+                string name = row.Cells["Name"].Value?.ToString().ToLower() ?? "";
+                string code = row.Cells["ProductID"].Value?.ToString().ToLower() ?? "";
 
-                // Aplicar filtros
-                bool matchesCategory = selectedCategory == "All" || category == selectedCategory;
+                bool matchesCategory = selectedCategory == "0" || category == selectedCategory;
                 bool matchesName = string.IsNullOrEmpty(searchName) || name.Contains(searchName);
                 bool matchesCode = string.IsNullOrEmpty(searchCode) || code.Contains(searchCode);
 
@@ -159,6 +159,7 @@ namespace OrderManagement_Desktop.View
             // Reanudar el CurrencyManager después de aplicar los filtros
             currencyManager.ResumeBinding();
         }
+
 
 
     }
