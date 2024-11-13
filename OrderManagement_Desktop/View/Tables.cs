@@ -16,6 +16,7 @@ using Aspose.CAD;
 using System.Security.Principal;
 using OrderManagement_Desktop.Services;
 using OrderManagement_Desktop.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace OrderManagement_Desktop.View
@@ -25,12 +26,14 @@ namespace OrderManagement_Desktop.View
     {
         private ProductServices _productServices;
         private CategorieServices _categoriesServices;
+        private OrderServices _ordersServices;
 
         public Tables()
         {
             InitializeComponent();
             _productServices = new ProductServices();
             _categoriesServices = new CategorieServices();
+            _ordersServices = new OrderServices();
         }
         private void Tables_Load(object sender, EventArgs e)
         {
@@ -77,11 +80,12 @@ namespace OrderManagement_Desktop.View
             // Verificar si hay una fila seleccionada en DataGridViewProductsGrid
             if (DataGridViewProductsGrid.SelectedRows.Count > 0)
             {
-                // Obtener el índice de la fila seleccionada
+                // Obtener la fila seleccionada
                 var selectedRow = DataGridViewProductsGrid.SelectedRows[0];
 
                 string productName = selectedRow.Cells["Name"].Value.ToString();
                 decimal unitPrice = Convert.ToDecimal(selectedRow.Cells["Price"].Value);
+                string productID = selectedRow.Cells["ProductID"].Value.ToString(); // Valor de ProductID
 
                 // Obtener la cantidad ingresada en el TextBox
                 if (int.TryParse(TextBoxCant.Text, out int quantity) && quantity > 0)
@@ -90,7 +94,10 @@ namespace OrderManagement_Desktop.View
                     decimal total = unitPrice * quantity;
 
                     // Agregar una nueva fila a DataGridViewAddProducts con los valores
-                    DataGridViewAddProducts.Rows.Add(quantity, productName, unitPrice, total);
+                    DataGridViewAddProducts.Rows.Add(productID, quantity, productName, unitPrice, total);
+
+                    // Asegurarse de que la columna ProductID esté oculta
+                    DataGridViewAddProducts.Columns["ProductID"].Visible = false;
                 }
                 else
                 {
@@ -102,6 +109,7 @@ namespace OrderManagement_Desktop.View
                 MessageBox.Show("Seleccione un producto para agregar.");
             }
         }
+
 
         // Evento para ComboBoxCategories
         private void ComboBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
@@ -160,6 +168,69 @@ namespace OrderManagement_Desktop.View
             currencyManager.ResumeBinding();
         }
 
+
+
+        private async void InsertOrderWithDetails()
+        {
+            try
+            {
+                // Crear una nueva instancia de Orders
+                var newOrder = new Models.Orders
+                {
+                    UserID = 0,
+                    Date = DateTime.Today,
+                    Status = "Pending", // o el estado que prefieras
+                    OrderType = "Dine-In", // por ejemplo, si es una orden para comer en el lugar
+                    Total = CalculateTotal(), // Calcula el total de la orden
+                    TableID = 0 // O el valor correspondiente
+                };
+
+                // Insertar la orden y obtener el ID generado
+                var orderId = await _ordersServices.AddOrder(newOrder);
+
+                // Validar que el ID de la orden sea válido antes de continuar
+                if (orderId > 0)
+                {
+                    // Insertar los detalles de la orden
+                    foreach (DataGridViewRow row in DataGridViewAddProducts.Rows)
+                    {
+                        // Obtener los datos de cada producto en el DataGridViewAddProducts
+                        var orderDetail = new Models.OrderDetails
+                        {
+                            OrderID = orderId,
+                            ProductID = Convert.ToInt32(row.Cells["ProductID"].Value),
+                            Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
+                            UnitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value),
+                            Total = Convert.ToDecimal(row.Cells["Total"].Value)
+                        };
+
+                        // Llamar al servicio para agregar cada detalle de la orden
+                        await _ordersServices.AddOrderDetail(orderDetail);
+                    }
+
+                    MessageBox.Show("Orden y detalles agregados exitosamente.");
+                }
+                else
+                {
+                    MessageBox.Show("Error al insertar la orden.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al agregar la orden con detalles: {ex.Message}");
+            }
+        }
+
+        // Método auxiliar para calcular el total de la orden basado en los productos en DataGridViewAddProducts
+        private decimal CalculateTotal()
+        {
+            decimal total = 0;
+            foreach (DataGridViewRow row in DataGridViewAddProducts.Rows)
+            {
+                total += Convert.ToDecimal(row.Cells["Total"].Value);
+            }
+            return total;
+        }
 
 
     }
