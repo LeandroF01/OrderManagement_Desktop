@@ -37,11 +37,26 @@ namespace OrderManagement_Desktop.Services
             return await _httpClient.GetFromJsonAsync<Orders>($"Orders/{id}");
         }
 
-        public async Task<bool> AddOrder(Orders orders)
+        //public async Task<int> AddOrder(Orders orders)
+        //{
+        //    var response = await _httpClient.PostAsJsonAsync("Orders", orders);
+        //    return response.IsSuccessStatusCode;
+        //}
+
+        public async Task<int> AddOrder(Orders order)
         {
-            var response = await _httpClient.PostAsJsonAsync("Orders", orders);
-            return response.IsSuccessStatusCode;
+            var response = await _httpClient.PostAsJsonAsync("Orders", order);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Leer el ID generado del cuerpo de la respuesta
+                var orderId = await response.Content.ReadFromJsonAsync<int>();
+                return orderId;
+            }
+
+            throw new Exception("Error al crear la orden.");
         }
+
 
         public async Task<bool> UpdateOrder(Orders orders)
         {
