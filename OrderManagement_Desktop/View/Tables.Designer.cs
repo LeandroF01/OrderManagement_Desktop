@@ -29,17 +29,20 @@
         private void InitializeComponent()
         {
             PanelProducts = new Panel();
+            ButtonConfirmOrder = new Button();
+            ButtonAddOrder = new Button();
             ButtonAddProduct = new Button();
             TextBoxCant = new TextBox();
             TextBoxSearch = new TextBox();
             TextBoxCod = new TextBox();
             ComboBoxCategories = new ComboBox();
             DataGridViewAddProducts = new DataGridView();
+            DataGridViewProductsGrid = new DataGridView();
             CANT = new DataGridViewTextBoxColumn();
             PRODUCT = new DataGridViewTextBoxColumn();
             UNIT_PRICE = new DataGridViewTextBoxColumn();
             TOTAL_PRICE = new DataGridViewTextBoxColumn();
-            DataGridViewProductsGrid = new DataGridView();
+            PRODUCT_ID = new DataGridViewTextBoxColumn();
             PanelProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridViewAddProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridViewProductsGrid).BeginInit();
@@ -47,6 +50,8 @@
             // 
             // PanelProducts
             // 
+            PanelProducts.Controls.Add(ButtonConfirmOrder);
+            PanelProducts.Controls.Add(ButtonAddOrder);
             PanelProducts.Controls.Add(ButtonAddProduct);
             PanelProducts.Controls.Add(TextBoxCant);
             PanelProducts.Controls.Add(TextBoxSearch);
@@ -59,6 +64,25 @@
             PanelProducts.Name = "PanelProducts";
             PanelProducts.Size = new Size(968, 722);
             PanelProducts.TabIndex = 0;
+            // 
+            // ButtonConfirmOrder
+            // 
+            ButtonConfirmOrder.Location = new Point(544, 78);
+            ButtonConfirmOrder.Name = "ButtonConfirmOrder";
+            ButtonConfirmOrder.Size = new Size(75, 23);
+            ButtonConfirmOrder.TabIndex = 8;
+            ButtonConfirmOrder.Text = "button2";
+            ButtonConfirmOrder.UseVisualStyleBackColor = true;
+            ButtonConfirmOrder.Click += ButtonConfirmOrder_Click;
+            // 
+            // ButtonAddOrder
+            // 
+            ButtonAddOrder.Location = new Point(828, 522);
+            ButtonAddOrder.Name = "ButtonAddOrder";
+            ButtonAddOrder.Size = new Size(108, 23);
+            ButtonAddOrder.TabIndex = 7;
+            ButtonAddOrder.Text = "buttonConfirm";
+            ButtonAddOrder.UseVisualStyleBackColor = true;
             // 
             // ButtonAddProduct
             // 
@@ -106,11 +130,19 @@
             // DataGridViewAddProducts
             // 
             DataGridViewAddProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridViewAddProducts.Columns.AddRange(new DataGridViewColumn[] { CANT, PRODUCT, UNIT_PRICE, TOTAL_PRICE });
+            DataGridViewAddProducts.Columns.AddRange(new DataGridViewColumn[] { CANT, PRODUCT, UNIT_PRICE, TOTAL_PRICE, PRODUCT_ID });
             DataGridViewAddProducts.Location = new Point(494, 173);
             DataGridViewAddProducts.Name = "DataGridViewAddProducts";
             DataGridViewAddProducts.Size = new Size(442, 324);
             DataGridViewAddProducts.TabIndex = 1;
+            // 
+            // DataGridViewProductsGrid
+            // 
+            DataGridViewProductsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridViewProductsGrid.Location = new Point(31, 173);
+            DataGridViewProductsGrid.Name = "DataGridViewProductsGrid";
+            DataGridViewProductsGrid.Size = new Size(442, 324);
+            DataGridViewProductsGrid.TabIndex = 0;
             // 
             // CANT
             // 
@@ -132,13 +164,11 @@
             TOTAL_PRICE.HeaderText = "TOTAL PRICE";
             TOTAL_PRICE.Name = "TOTAL_PRICE";
             // 
-            // DataGridViewProductsGrid
+            // PRODUCT_ID
             // 
-            DataGridViewProductsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridViewProductsGrid.Location = new Point(31, 173);
-            DataGridViewProductsGrid.Name = "DataGridViewProductsGrid";
-            DataGridViewProductsGrid.Size = new Size(442, 324);
-            DataGridViewProductsGrid.TabIndex = 0;
+            PRODUCT_ID.HeaderText = "PRODUCT ID";
+            PRODUCT_ID.Name = "PRODUCT_ID";
+            PRODUCT_ID.Visible = false;
             // 
             // Tables
             // 
@@ -166,9 +196,12 @@
         private TextBox TextBoxCant;
         private TextBox TextBoxSearch;
         private TextBox TextBoxCod;
+        private Button ButtonAddOrder;
+        private Button ButtonConfirmOrder;
         private DataGridViewTextBoxColumn CANT;
         private DataGridViewTextBoxColumn PRODUCT;
         private DataGridViewTextBoxColumn UNIT_PRICE;
         private DataGridViewTextBoxColumn TOTAL_PRICE;
+        private DataGridViewTextBoxColumn PRODUCT_ID;
     }
 }
