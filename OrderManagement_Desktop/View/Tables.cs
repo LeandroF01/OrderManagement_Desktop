@@ -26,15 +26,19 @@ namespace OrderManagement_Desktop.View
     {
         private ProductServices _productServices;
         private CategorieServices _categoriesServices;
-        private OrderServices _ordersServices;
+        private OrderServices _ordersServicesToken;
+        private OrderDetailServices _ordersDetailServicesToken;
 
         public Tables()
         {
             InitializeComponent();
+            var token = ConfigurationHelper.GetTokenFromConfig();
             _productServices = new ProductServices();
             _categoriesServices = new CategorieServices();
-            _ordersServices = new OrderServices();
+            _ordersServicesToken = new OrderServices(token);
+            _ordersDetailServicesToken = new OrderDetailServices(token);
         }
+
         private void Tables_Load(object sender, EventArgs e)
         {
             ViewProducts();
@@ -94,10 +98,10 @@ namespace OrderManagement_Desktop.View
                     decimal total = unitPrice * quantity;
 
                     // Agregar una nueva fila a DataGridViewAddProducts con los valores
-                    DataGridViewAddProducts.Rows.Add(productID, quantity, productName, unitPrice, total);
+                    DataGridViewAddProducts.Rows.Add( quantity, productName, unitPrice, total, productID);
 
                     // Asegurarse de que la columna ProductID esté oculta
-                    DataGridViewAddProducts.Columns["ProductID"].Visible = false;
+                   // DataGridViewAddProducts.Columns["ProductID"].Visible = false;
                 }
                 else
                 {
@@ -186,7 +190,7 @@ namespace OrderManagement_Desktop.View
                 };
 
                 // Insertar la orden y obtener el ID generado
-                var orderId = await _ordersServices.AddOrder(newOrder);
+                int orderId = await _ordersServicesToken.AddOrder(newOrder);
 
                 // Validar que el ID de la orden sea válido antes de continuar
                 if (orderId > 0)
@@ -198,14 +202,14 @@ namespace OrderManagement_Desktop.View
                         var orderDetail = new Models.OrderDetails
                         {
                             OrderID = orderId,
-                            ProductID = Convert.ToInt32(row.Cells["ProductID"].Value),
+                            ProductID = Convert.ToInt32(row.Cells["Product_ID"].Value),
                             Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
-                            UnitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value),
-                            Total = Convert.ToDecimal(row.Cells["Total"].Value)
+                            UnitPrice = Convert.ToDecimal(row.Cells["Unit_Price"].Value),
+
                         };
 
                         // Llamar al servicio para agregar cada detalle de la orden
-                        await _ordersServices.AddOrderDetail(orderDetail);
+                        await _ordersDetailServicesToken.AddOrderDetail(orderDetail);
                     }
 
                     MessageBox.Show("Orden y detalles agregados exitosamente.");
@@ -227,11 +231,14 @@ namespace OrderManagement_Desktop.View
             decimal total = 0;
             foreach (DataGridViewRow row in DataGridViewAddProducts.Rows)
             {
-                total += Convert.ToDecimal(row.Cells["Total"].Value);
+                total += Convert.ToDecimal(row.Cells["TOTAL_PRICE"].Value);
             }
             return total;
         }
 
-
+        private void ButtonConfirmOrder_Click(object sender, EventArgs e)
+        {
+            InsertOrderWithDetails();
+        }
     }
 }
